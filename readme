@@ -1,5 +1,5 @@
 1. what is the motive of this project ?
-    This project integrated the GraphqlApi client in .net core 3.1. I am not going to used any design pattern, bcz that's not the scope of this project
+    This project integrated the GraphqlApi client in .net core 3.1. 
 
 
 2. The nuget package used in the project are listed below
