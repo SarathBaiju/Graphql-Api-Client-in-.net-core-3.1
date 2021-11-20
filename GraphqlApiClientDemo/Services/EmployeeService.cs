@@ -82,19 +82,55 @@ namespace GraphqlApiClientDemo.Services
             return response.Data.Employee?.Id ?? 0;
         }
 
-        public Task<int> UpdateEmployee(EmployeeDto employeeDto)
+        public async Task<int> UpdateEmployee(EmployeeDto employeeDto)
         {
-            throw new NotImplementedException();
+            var employeeUpdateMutation = @"mutation updateEmployee($id:Int!, $employee: emp_Employee_set_input) {
+                                              update_emp_Employee_by_pk(pk_columns: {id: $id}, _set: $employee) {
+                                                id
+                                              }
+                                            }";
+            var variables = new
+            {
+                id = employeeDto.Id,
+                employee = new
+                {
+                    id = employeeDto.Id,
+                    name = employeeDto.Name,
+                    modifiedDate = DateTime.Now
+                }
+            };
+
+            var graphqlRequest = new GraphQLRequest
+            {
+                Query = employeeUpdateMutation,
+                Variables = variables
+            };
+
+            var response = await _graphQLHttpClient.SendMutationAsync<EmployeeUpdateMutationResponse>(graphqlRequest);
+            ValidateGraphResponse(response);
+
+            return response.Data.Employee?.Id ?? 0;
         }
 
-        public Task<bool> DeleteEmployeeById(int id)
+        public async Task<bool> DeleteEmployeeById(int id)
         {
-            throw new NotImplementedException();
-        }
+            var deleteEmployeeMutation = @"mutation deleteEmployee($id: Int) {
+                                          delete_emp_Employee(where: {id: {_eq: $id}}) {
+                                            affected_rows
+                                          }
+                                        }";
+            var graphQlRequest = new GraphQLRequest
+            {
+                Query = deleteEmployeeMutation,
+                Variables = new
+                {
+                    id
+                }
+            };
 
-        public async Task<bool> DeleteAllEmployees()
-        {
-            throw new NotImplementedException();
+            var response = await _graphQLHttpClient.SendMutationAsync<EmployeeDeleteMutationResponse>(graphQlRequest);
+            ValidateGraphResponse(response);
+            return true;
         }
 
         private static void ValidateGraphResponse<T>(GraphQLResponse<T> response)

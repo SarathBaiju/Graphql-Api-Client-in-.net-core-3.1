@@ -1,7 +1,5 @@
 ﻿using GraphqlApiClientDemo.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GraphqlApiClientDemo.Services.Contracts
@@ -13,6 +11,5 @@ namespace GraphqlApiClientDemo.Services.Contracts
         Task<int> InsertEmployee(EmployeeDto employeeDto);
         Task<int> UpdateEmployee(EmployeeDto employeeDto);
         Task<bool> DeleteEmployeeById(int id);
-        Task<bool> DeleteAllEmployees();
     }
 }

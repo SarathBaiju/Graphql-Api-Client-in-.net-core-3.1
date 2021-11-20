@@ -3,8 +3,6 @@ using GraphqlApiClientDemo.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace GraphqlApiClientDemo.Controllers
@@ -19,6 +17,7 @@ namespace GraphqlApiClientDemo.Controllers
         {
             this._employeeService = employeeService;
         }
+
         [HttpGet]
         [Route("employees")]
         public async Task<IActionResult> GetEmployees()
@@ -58,11 +57,52 @@ namespace GraphqlApiClientDemo.Controllers
 
         [HttpPost]
         [Route("employee/add")]
-        public async Task<IActionResult> InsertEmployee([FromBody] EmployeeDto employee)
+        public async Task<IActionResult> InsertEmployee([FromBody] EmployeeViewModel employeeVM)
         {
             try
             {
+                var employee = new EmployeeDto
+                {
+                    Id = employeeVM.Id,
+                    Name = employeeVM.Name,
+                    CreatedDate = DateTime.Now
+                };
                 return Ok(await _employeeService.InsertEmployee(employee));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("employee/update")]
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeViewModel employeeVM)
+        {
+            try
+            {
+                var employee = new EmployeeDto
+                {
+                    Id = employeeVM.Id,
+                    Name = employeeVM.Name
+                };
+                return Ok(await _employeeService.UpdateEmployee(employee));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("employee/delete/{id}")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int id)
+        {
+            try
+            {
+                return Ok(await _employeeService.DeleteEmployeeById(id));
             }
             catch (Exception ex)
             {
