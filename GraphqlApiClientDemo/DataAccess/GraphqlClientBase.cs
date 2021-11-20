@@ -18,20 +18,14 @@ namespace GraphqlApiClientDemo.DataAccess
 
         public GraphQLHttpClient GetGraphQlApiClient()
         {
-            var endpoint = "https://testproject1.hasura.app/v1/graphql";
+            var endpoint = "https://userdemographql.hasura.app/v1/graphql";
 
             var httpClientOption = new GraphQLHttpClientOptions
             {
                 EndPoint = new Uri(endpoint)
             };
 
-            var httpClient = new HttpClient();
-
-            var defaultHeader = httpClient.DefaultRequestHeaders;
-            defaultHeader.Add("X-Hasura-Role", "tenantuser");
-            defaultHeader.Add("X-Hasura-Tenant-Id", "zyxv-abcd");
-
-           return new GraphQLHttpClient(httpClientOption, new NewtonsoftJsonSerializer(), httpClient);
+           return new GraphQLHttpClient(httpClientOption, new NewtonsoftJsonSerializer(), new HttpClient());
         } 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GraphqlApiClientDemo.Services;
+using GraphqlApiClientDemo.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

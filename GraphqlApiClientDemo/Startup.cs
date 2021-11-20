@@ -1,4 +1,5 @@
 using GraphqlApiClientDemo.Services;
+using GraphqlApiClientDemo.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace GraphqlApiClientDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ITransferService, TransferService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddControllers();
         }
 

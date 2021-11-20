@@ -7,6 +7,8 @@ using GraphQL;
 using System;
 using System.Net.Http;
 using GraphqlApiClientDemo.DataAccess;
+using System.Linq;
+using GraphqlApiClientDemo.Services.Contracts;
 
 namespace GraphqlApiClientDemo.Services
 {
@@ -28,6 +30,11 @@ namespace GraphqlApiClientDemo.Services
             
 
             var response = await _graphQLHttpClient.SendQueryAsync<TransferQueryResponse>(request);
+            if (response.Errors != null && response.Errors.Any())
+            {
+                throw new Exception(string.Join(", ",response.Errors.Select(s => s.Message).ToList()));
+            }
+
             return response.Data.Transfer;
         }
     }

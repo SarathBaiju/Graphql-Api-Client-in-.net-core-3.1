@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GraphqlApiClientDemo.Services
+namespace GraphqlApiClientDemo.Services.Contracts
 {
     public interface ITransferService
     {
